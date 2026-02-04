@@ -1,5 +1,9 @@
+import java.util.Scanner;
+
 public class Kopi {
     public static void main(String[] args) {
+
+        Scanner in = new Scanner(System.in);
         String logo = " _  __  ___   ____   ___ \n"
                 + "| |/ / / _ \\ |  _ \\ |_ _|\n"
                 + "| ' / | | | || |_) | | | \n"
@@ -9,9 +13,21 @@ public class Kopi {
         String bar = "------------------------------------------------------\n";
         System.out.println("Hello from\n" + logo);
         System.out.println(bar);
-        System.out.println("Hello! I'm KopiOKosongPeng");
-        System.out.println("What can I do for you?\n" + bar);
+        System.out.println("Hello Handsome Boy! I'm KopiOKosongPeng");
+        System.out.println("What you want?\n" + bar);
 
-        System.out.println("Bye. Hope to see you again soon!\n" + bar);
+        while (true) {
+            String input = in.nextLine();
+
+            System.out.println(bar);
+
+            if (input.equals("bye")) {
+                System.out.println("Bye bye, come next order!\n" + bar);
+                break;
+            }
+
+            System.out.println(input);
+            System.out.println(bar);
+        }
     }
 }
