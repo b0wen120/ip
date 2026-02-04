@@ -4,6 +4,9 @@ public class Kopi {
     public static void main(String[] args) {
 
         Scanner in = new Scanner(System.in);
+        String[] allTasks = new String[100];
+        int allTasksCount = 0;
+
         String logo = " _  __  ___   ____   ___ \n"
                 + "| |/ / / _ \\ |  _ \\ |_ _|\n"
                 + "| ' / | | | || |_) | | | \n"
@@ -26,7 +29,18 @@ public class Kopi {
                 break;
             }
 
-            System.out.println(input);
+            if (input.equals("list")) {
+                for (int i = 0; i < allTasksCount; i++) {
+                    System.out.println((i + 1) + ". " + allTasks[i]);
+                }
+                System.out.println(bar);
+                continue;
+            }
+
+            allTasks[allTasksCount] = input;
+            allTasksCount++;
+
+            System.out.println("added: " + input);
             System.out.println(bar);
         }
     }
