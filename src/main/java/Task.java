@@ -19,7 +19,9 @@ public class Task {
         this.isDone = false;
     }
 
-    public String toString(){
+    public String toString() {
         return "[" + getStatusIcon() + "] " + description;
     }
+
+    public String toFileFormat() { return " | " + (isDone ? "1" : "0") + " | " + description; }
 }
