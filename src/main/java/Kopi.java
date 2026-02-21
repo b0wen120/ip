@@ -1,8 +1,24 @@
 import java.net.UnknownServiceException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileWriter;
 
 public class Kopi {
+
+    private static void saveTasksToFile (ArrayList<Task>allTasks) {
+        try {
+            FileWriter writer = new FileWriter("./data/kopi.txt");
+            for (int i = 0; i < allTasks.size(); i++) {
+                    writer.write(allTasks.get(i).toFileFormat() + System.lineSeparator());
+                }
+            writer.close();
+        } catch (java.io.IOException e) {
+            System.out.println("Eh cannot save sia: " + e.getMessage());
+        }
+    }
+
     public static void main(String[] args) throws KopiException {
 
         Scanner in = new Scanner(System.in);
@@ -19,6 +35,22 @@ public class Kopi {
         System.out.println(bar);
         System.out.println("Hello Handsome Boy! I'm KopiOKosongPeng");
         System.out.println("What you want?\n" + bar);
+
+        File directory = new File("./data");
+        if (!directory.exists()) {
+            System.out.println("Brah you don't have any data folder leh, neh mind I make one for you...");
+            directory.mkdir();
+        }
+
+        File f = new File("./data/kopi.txt");
+        if (!f.exists()) {
+            System.out.println("Brah you got like zero saved tasks, I make a new file lah...");
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                System.out.println("Brah they don't let me create file sia, neh mind lor...");
+            }
+        }
 
         while (true) {
             String userInput = in.nextLine().trim();
@@ -47,6 +79,7 @@ public class Kopi {
                     System.out.println(" " + allTasks.get(taskIndex));
                     System.out.println(bar);
 
+                    saveTasksToFile(allTasks);
                     continue;
                 }
 
@@ -58,6 +91,7 @@ public class Kopi {
                     System.out.println(" " + allTasks.get(taskIndex));
                     System.out.println(bar);
 
+                    saveTasksToFile(allTasks);
                     continue;
                 }
 
@@ -70,6 +104,7 @@ public class Kopi {
                     System.out.println("Now got " + allTasks.size() + " tasks only");
                     System.out.println(bar);
 
+                    saveTasksToFile(allTasks);
                     continue;
                 }
 
@@ -86,6 +121,8 @@ public class Kopi {
                     System.out.println(" " + allTasks.get(allTasks.size() - 1));
                     System.out.println("Now you have " + allTasks.size() + " tasks in here ah");
                     System.out.println(bar);
+
+                    saveTasksToFile(allTasks);
                     continue;
                 }
 
@@ -100,6 +137,8 @@ public class Kopi {
                     System.out.println(" " + allTasks.get(allTasks.size() - 1));
                     System.out.println("Now you have " + allTasks.size() + " tasks in here ah");
                     System.out.println(bar);
+
+                    saveTasksToFile(allTasks);
                     continue;
                 }
 
@@ -115,6 +154,8 @@ public class Kopi {
                     System.out.println(" " + allTasks.get(allTasks.size() - 1));
                     System.out.println("Now you have " + allTasks.size() + " tasks in here ah");
                     System.out.println(bar);
+
+                    saveTasksToFile(allTasks);
                     continue;
                 }
 

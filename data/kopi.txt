@@ -1,0 +1,2 @@
+T | 0 | make kopi
+D | 0 | buy dumplings |  June 6th
