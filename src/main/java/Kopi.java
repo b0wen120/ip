@@ -7,15 +7,40 @@ import java.io.FileWriter;
 
 public class Kopi {
 
-    private static void saveTasksToFile (ArrayList<Task>allTasks) {
+    private static void saveTasksToFile(ArrayList<Task> allTasks) {
         try {
             FileWriter writer = new FileWriter("./data/kopi.txt");
             for (int i = 0; i < allTasks.size(); i++) {
-                    writer.write(allTasks.get(i).toFileFormat() + System.lineSeparator());
-                }
+                writer.write(allTasks.get(i).toFileFormat() + System.lineSeparator());
+            }
             writer.close();
         } catch (java.io.IOException e) {
             System.out.println("Eh cannot save sia: " + e.getMessage());
+        }
+    }
+
+    private static void loadTasksFromFile(ArrayList<Task> allTasks) {
+        try {
+            File f = new File("./data/kopi.txt");
+            if (!f.exists()) return;
+            Scanner s = new Scanner(f);
+            while (s.hasNext()) {
+                String line = s.nextLine();
+                String[] parts = line.split(" \\| ");
+                String type = parts[0];
+                boolean isDone = parts[1].equals("1");
+                String desc = parts[2];
+                Task t = null;
+                if (type.equals("T")) t = new Todo(desc);
+                else if (type.equals("D")) t = new Deadline(desc, parts[3]);
+                else if (type.equals("E")) t = new Event(desc, parts[3], parts[4]);
+                if (t != null) {
+                    if (isDone) t.markAsDone();
+                    allTasks.add(t);
+                }
+            }
+        } catch (java.io.FileNotFoundException e) {
+            System.out.println("Error loading file: " + e.getMessage());
         }
     }
 
@@ -23,6 +48,8 @@ public class Kopi {
 
         Scanner in = new Scanner(System.in);
         ArrayList<Task> allTasks = new ArrayList<>();
+
+        loadTasksFromFile(allTasks);
 
         String logo = " _  __  ___   ____   ___ \n"
                 + "| |/ / / _ \\ |  _ \\ |_ _|\n"
@@ -72,7 +99,7 @@ public class Kopi {
                 }
 
                 if (userInput.startsWith("mark ")) {
-                    int taskIndex = Integer.parseInt(userInput.split(" ")[1]) -1;
+                    int taskIndex = Integer.parseInt(userInput.split(" ")[1]) - 1;
 
                     allTasks.get(taskIndex).markAsDone();
                     System.out.println("Nice lah this one finish liao:");
@@ -84,7 +111,7 @@ public class Kopi {
                 }
 
                 if (userInput.startsWith("unmark ")) {
-                    int taskIndex = Integer.parseInt(userInput.split(" ")[1]) -1;
+                    int taskIndex = Integer.parseInt(userInput.split(" ")[1]) - 1;
 
                     allTasks.get(taskIndex).unmarkAsNotDone();
                     System.out.println("Orh okay, so this one haven't finish:");
@@ -96,7 +123,7 @@ public class Kopi {
                 }
 
                 if (userInput.startsWith("delete ")) {
-                    int taskIndex = Integer.parseInt(userInput.split(" ")[1]) -1;
+                    int taskIndex = Integer.parseInt(userInput.split(" ")[1]) - 1;
 
                     Task deletedTask = allTasks.remove(taskIndex);
                     System.out.println("This one don't want? Okay I remove:");
