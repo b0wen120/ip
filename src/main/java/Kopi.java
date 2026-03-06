@@ -7,7 +7,7 @@ import java.io.FileWriter;
 
 public class Kopi {
 
-    private static void saveTasksToFile(ArrayList<Task> allTasks) {
+    /*private static void saveTasksToFile(ArrayList<Task> allTasks) {
         try {
             FileWriter writer = new FileWriter("./data/kopi.txt");
             for (int i = 0; i < allTasks.size(); i++) {
@@ -42,16 +42,26 @@ public class Kopi {
         } catch (java.io.FileNotFoundException e) {
             System.out.println("Error loading file: " + e.getMessage());
         }
-    }
+    }*/
 
     public static void main(String[] args) throws KopiException {
 
-        Scanner in = new Scanner(System.in);
-        ArrayList<Task> allTasks = new ArrayList<>();
+        //Scanner in = new Scanner(System.in);
 
-        loadTasksFromFile(allTasks);
+        UI ui = new UI();
+        ui.showWelcome();
 
-        String logo = " _  __  ___   ____   ___ \n"
+        //ArrayList<Task> allTasks = new ArrayList<>();
+
+        Storage storage = new Storage("./data/kopi.txt");
+        ArrayList<Task>loadedTasks = new ArrayList<>();
+        storage.loadTasksFromFile(loadedTasks);
+
+        TaskList taskList = new TaskList(loadedTasks);
+
+        //loadTasksFromFile(allTasks);
+
+        /*String logo = " _  __  ___   ____   ___ \n"
                 + "| |/ / / _ \\ |  _ \\ |_ _|\n"
                 + "| ' / | | | || |_) | | | \n"
                 + "| . \\ | |_| ||  __/  | | \n"
@@ -61,7 +71,7 @@ public class Kopi {
         System.out.println("Hello from\n" + logo);
         System.out.println(bar);
         System.out.println("Hello Handsome Boy! I'm KopiOKosongPeng");
-        System.out.println("What you want?\n" + bar);
+        System.out.println("What you want?\n" + bar);*/
 
         File directory = new File("./data");
         if (!directory.exists()) {
@@ -80,58 +90,63 @@ public class Kopi {
         }
 
         while (true) {
-            String userInput = in.nextLine().trim();
+            String userInput = ui.readCommand();
 
-            System.out.println(bar);
+            ui.showLine();
 
             try {
-                if (userInput.equals("bye")) {
-                    System.out.println("Bye bye, come next order!\n" + bar);
+                boolean isExit = Parser.parse(userInput, taskList, ui, storage);
+                if (isExit) {
+                    break;
+                }
+                /*if (userInput.equals("bye")) {
+                    System.out.println("Bye bye, come next order!\n");
+                    ui.showLine();
                     break;
                 }
 
                 if (userInput.equals("list")) {
                     System.out.println("Here are the tasks in your list:\n");
 
-                    for (int i = 0; i < allTasks.size(); i++) System.out.println((i + 1) + ". " + allTasks.get(i));
-                    System.out.println(bar);
+                    for (int i = 0; i < taskList.getSize(); i++) System.out.println((i + 1) + ". " + taskList.getTask(i));
+                    ui.showLine();
                     continue;
                 }
 
                 if (userInput.startsWith("mark ")) {
                     int taskIndex = Integer.parseInt(userInput.split(" ")[1]) - 1;
 
-                    allTasks.get(taskIndex).markAsDone();
+                    taskList.getTask(taskIndex).markAsDone();
                     System.out.println("Nice lah this one finish liao:");
-                    System.out.println(" " + allTasks.get(taskIndex));
-                    System.out.println(bar);
+                    System.out.println(" " + taskList.getTask(taskIndex));
+                    ui.showLine();
 
-                    saveTasksToFile(allTasks);
+                    storage.saveTasksToFile(loadedTasks);
                     continue;
                 }
 
                 if (userInput.startsWith("unmark ")) {
                     int taskIndex = Integer.parseInt(userInput.split(" ")[1]) - 1;
 
-                    allTasks.get(taskIndex).unmarkAsNotDone();
+                    taskList.getTask(taskIndex).unmarkAsNotDone();
                     System.out.println("Orh okay, so this one haven't finish:");
-                    System.out.println(" " + allTasks.get(taskIndex));
-                    System.out.println(bar);
+                    System.out.println(" " + taskList.getTask(taskIndex));
+                    ui.showLine();
 
-                    saveTasksToFile(allTasks);
+                    storage.saveTasksToFile(loadedTasks);
                     continue;
                 }
 
                 if (userInput.startsWith("delete ")) {
                     int taskIndex = Integer.parseInt(userInput.split(" ")[1]) - 1;
 
-                    Task deletedTask = allTasks.remove(taskIndex);
+                    Task deletedTask = taskList.removeTask(taskIndex);
                     System.out.println("This one don't want? Okay I remove:");
                     System.out.println(" " + deletedTask);
-                    System.out.println("Now got " + allTasks.size() + " tasks only");
-                    System.out.println(bar);
+                    System.out.println("Now got " + taskList.getSize() + " tasks only");
+                    ui.showLine();
 
-                    saveTasksToFile(allTasks);
+                    storage.saveTasksToFile(loadedTasks);
                     continue;
                 }
 
@@ -142,55 +157,56 @@ public class Kopi {
                 if (userInput.startsWith("todo ")) {
 
                     String description = userInput.substring(5);
-                    allTasks.add(new Todo(description));
+                    taskList.addTask(new Todo(description));
 
                     System.out.println("Okay, I add your task liao:");
-                    System.out.println(" " + allTasks.get(allTasks.size() - 1));
-                    System.out.println("Now you have " + allTasks.size() + " tasks in here ah");
-                    System.out.println(bar);
+                    System.out.println(" " + taskList.getTask(taskList.getSize() - 1));
+                    System.out.println("Now you have " + taskList.getSize() + " tasks in here ah");
+                    ui.showLine();
 
-                    saveTasksToFile(allTasks);
+                    storage.saveTasksToFile(loadedTasks);
                     continue;
                 }
 
                 if (userInput.startsWith("deadline ")) {
-                    String[] sections = userInput.substring(9).split(" /by", 2);
+                    String[] sections = userInput.substring(9).split(" by", 2);
                     String description = sections[0];
                     String by = sections[1];
 
-                    allTasks.add(new Deadline(description, by));
+                    taskList.addTask(new Deadline(description, by));
 
                     System.out.println("Okay, I add your task liao:");
-                    System.out.println(" " + allTasks.get(allTasks.size() - 1));
-                    System.out.println("Now you have " + allTasks.size() + " tasks in here ah");
-                    System.out.println(bar);
+                    System.out.println(" " + taskList.getTask(taskList.getSize() - 1));
+                    System.out.println("Now you have " + taskList.getSize() + " tasks in here ah");
+                    ui.showLine();
 
-                    saveTasksToFile(allTasks);
+                    storage.saveTasksToFile(loadedTasks);
                     continue;
                 }
 
                 if (userInput.startsWith("event ")) {
-                    String[] sections = userInput.substring(6).split(" /from | /to");
+                    String[] sections = userInput.substring(6).split(" from | to");
                     String description = sections[0];
                     String from = sections[1];
                     String to = sections[2];
 
-                    allTasks.add(new Event(description, from, to));
+                    taskList.addTask(new Event(description, from, to));
 
                     System.out.println("Okay, I add your task liao:");
-                    System.out.println(" " + allTasks.get(allTasks.size() - 1));
-                    System.out.println("Now you have " + allTasks.size() + " tasks in here ah");
-                    System.out.println(bar);
+                    System.out.println(" " + taskList.getTask(taskList.getSize() - 1));
+                    System.out.println("Now you have " + taskList.getSize() + " tasks in here ah");
+                    ui.showLine();
 
-                    saveTasksToFile(allTasks);
+                    storage.saveTasksToFile(loadedTasks);
                     continue;
                 }
 
-                System.out.println(bar);
-                throw new KopiException("Brotha what does that mean sia?!\n" + bar);
+                //ui.showLine();
+                throw new KopiException("Brotha what does that mean sia?!\n");*/
 
             } catch (KopiException e) {
                 System.out.println(e.getMessage());
+                ui.showLine();
             }
         }
     }
