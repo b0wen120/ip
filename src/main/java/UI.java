@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UI {
@@ -31,5 +32,16 @@ public class UI {
 
     public void showError(String message) {
         System.out.println(message);
+    }
+
+    public void showFoundTasks(ArrayList<Task> matchingTasks) {
+        if (matchingTasks.isEmpty()) {
+            System.out.println("Eh don't have what you want leh...");
+        } else {
+            System.out.println("Oh yeah we have, here you go: \n");
+            for (int i = 0; i < matchingTasks.size(); i++) {
+                System.out.println((i + 1) + " " + matchingTasks.get(i));
+            }
+        }
     }
 }

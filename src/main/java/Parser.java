@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Parser {
     public static boolean parse(String userInput, TaskList taskList, UI ui, Storage storage) throws KopiException {
         if (userInput.equals("bye")) {
@@ -48,6 +50,17 @@ public class Parser {
             ui.showLine();
 
             storage.saveTasksToFile(taskList.getArrayList());
+            return false;
+        }
+
+        if (userInput.startsWith("find ")) {
+            String keyword = userInput.substring(5).trim();
+
+            ArrayList<Task> matchingTasks = taskList.findTasks(keyword);
+
+            ui.showFoundTasks(matchingTasks);
+            ui.showLine();
+
             return false;
         }
 

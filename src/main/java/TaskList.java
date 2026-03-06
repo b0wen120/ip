@@ -30,4 +30,15 @@ public class TaskList {
     public ArrayList<Task> getArrayList() {
         return this.tasks;
     }
+
+    public ArrayList<Task> findTasks(String keyword) {
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+        for (int i = 0; i < this.tasks.size(); i++) {
+            Task t = this.tasks.get(i);
+            if (t.description.contains(keyword)) {
+                matchingTasks.add(t);
+            }
+        }
+        return matchingTasks;
+    }
 }
