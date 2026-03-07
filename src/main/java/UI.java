@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Manages the user interface of Kopi, how the bot speaks to user when starting up, as well as reading user inputs and printing messages
+ */
+
 public class UI {
     private Scanner in;
     private String bar = "---------------------------------------------------------------------------\n";

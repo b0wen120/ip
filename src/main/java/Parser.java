@@ -1,6 +1,18 @@
 import java.util.ArrayList;
 
 public class Parser {
+
+    /**
+     * Parse method, parses the user input string and executes the command based on user input
+     *
+     * @param userInput -> The string input command typed into the Kopi bot.
+     * @param taskList -> TaskList that manages the current tasks in list.
+     * @param ui -> UI handles the output of the bot.
+     * @param storage -> Storage object that handles the file saving of changes to Kopi.
+     * @return true if Kopi needs to exit, else, false to continue operation.
+     * @throws KopiException If user input is invalid, incomplete etc.
+     */
+
     public static boolean parse(String userInput, TaskList taskList, UI ui, Storage storage) throws KopiException {
         if (userInput.equals("bye")) {
             System.out.println("Bye bye, come next order!\n");

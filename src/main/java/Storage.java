@@ -4,6 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Manages the loading and save data of tasks in Kopi onto the hard disk
+ * Save tasks will be saveTasksToFile
+ * Loading tasks will be loadTasksFromFile
+ */
+
 public class Storage {
     private String filePath;
 
