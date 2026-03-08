@@ -126,8 +126,6 @@ public class Parser {
             storage.saveTasksToFile(taskList.getArrayList());
             return false;
         }
-
-        //ui.showLine();
         throw new KopiException("Brotha what does that mean sia?!\n");
     }
 }
