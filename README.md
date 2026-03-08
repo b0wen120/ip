@@ -1,26 +1,57 @@
-# Duke project template
+# KopiOKosongPeng User Guide
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+Welcome to **KopiOKosongPeng**, or in short, Kopi! Kopi is your friendly local task manager, modeled after the drinks stall auntie/uncle at the Kopitiam below your house! It is a local desktop app for managing personal tasks, optimized for use via Command Line Interface (CLI).
 
-## Setting up in Intellij
+Better type properly, Kopi can help you settle and tidy your tasks faster than the drinks stall uncle/auntie can brew that Kopi. Type wrongly and it'll be just as cranky too.
 
-Prerequisites: JDK 17, update Intellij to the most recent version.
+---
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 17** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-   Hello from
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+## FEATURES
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+### 1. Adding a Todo task: `todo`
+Adds a basic task without any date/time restrictions.
+**Format:** `todo <description>`
+**Example:** `todo buy toto and bet on Manchester United`
+
+### 2. Adding a Deadline task: `deadline`
+Adds a task that needs to be done before a specific date/time.
+**Format:** `deadline <description> by <date/time>`
+**Example:** `deadline cook dinner for you-know-who by today 1800 hrs`
+
+### 3. Adding an Event task: `event`
+Adds a task that starts at a specific date/time and ends at a specific date/time.
+**Format:** `event <description> from <start time> to <end time>`
+**Example:** `event dinner date with family Friday 20 Feb 2026 from 7 to 9pm`
+
+### 4. Listing all tasks in current list: `list`
+Shows you a complete list of all the tasks you have currently saved.
+**Format:** `list`
+
+### 5. Marking a task as done: `mark`
+Marks a specific task in your list as completed, with an 'X'.
+**Format:** `mark <task_number>`
+**Example:** `mark 1` (Marks the 1st task in your list as done)
+
+### 6. Unmarking a task: `unmark`
+Reverts a completed task back to an incomplete status, removing the 'X'.
+**Format:** `unmark <task_number>`
+**Example:** `unmark 1`
+
+### 7. Finding a task: `find`
+Searches for tasks that contain a specific keyword in their description.
+**Format:** `find <keyword>`
+**Example:** `find dinner`
+
+### 8. Deleting a task: `delete`
+Permanently removes a task from your list, based on the index of the task.
+**Format:** `delete <task_number>`
+**Example:** `delete 2`
+
+### 9. Exiting the app: `bye`
+Saves your data and closes the Kopi app.
+**Format:** `bye`
+
+---
+
+## Data Storage
+Kopi automatically saves all your tasks to the hard drive (`./data/kopi.txt`) after every single command, thus there is no need to manually save your data. When you reboot Kopi, he will remember everything, like the drinks stall uncle/auntie that remembers your usual Kopi order!
